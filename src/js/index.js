@@ -82,6 +82,10 @@ function startSession() {
 function checkUserInput(character) {
   const validation = new RegExp(`^[?!,-;.а-яА-ЯёЁ" "0-9]+$`);
   const currentLetter = document.querySelector(`[data-id="${settings.currentIndex}"]`);
+
+  if (character.charCodeAt() === 66 && settings.currentIndex !== 0) {
+    moveBack();
+  }
   if (!validation.test(character)) {
     return;
   }
@@ -114,6 +118,17 @@ function catchError(letter) {
   document
     .querySelector(`[data-id="${settings.currentIndex + 1}"]`)
     .classList.add("active");
+}
+
+function moveBack() {
+  settings.currentIndex -= 1;
+  const currentLetter = document.querySelector(`[data-id="${settings.currentIndex}"]`);
+  currentLetter.classList.add("active");
+  currentLetter.classList.remove("error");
+  currentLetter.classList.remove("completed");
+  document
+    .querySelector(`[data-id="${settings.currentIndex + 1}"]`)
+    .classList.remove("active");
 }
 
 initApp();
