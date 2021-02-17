@@ -1,21 +1,40 @@
 import "/src/assets/style.css";
 import "/src/assets/scss.scss";
 
-import { settings } from "./data";
+import { state } from "./session";
 
 import { getRandomText } from "./client";
 
 function initApp() {
   getRandomText()
-    .then(data => {
-      renderText(splitIntoLines(data, 50));
+    .then(text => {
+      return splitIntoLines(text, 50);
+    })
+    .then(lines => {
+      renderText(lines);
     })
     .then(() => {
       startSession();
     });
-  document.addEventListener("keydown", event => {
-    checkUserInput(event.key);
-  });
+}
+
+function splitIntoLines(text, lineWidth) {
+  const result = [];
+  const words = text.split(" ");
+  let intermediateSize = 0;
+  const line = [];
+
+  for (const word of words) {
+    intermediateSize += word.length + 1;
+    if (intermediateSize > lineWidth) {
+      intermediateSize = 0;
+      result.push(line.slice());
+      line.length = 0;
+    }
+    line.push(word);
+  }
+  result.push(line.slice());
+  return result;
 }
 
 function renderText(text) {
@@ -56,34 +75,18 @@ function renderText(text) {
   });
 }
 
-function splitIntoLines(text, lineWidth) {
-  const result = [];
-  const words = text.split(" ");
-  let intermediateSize = 0;
-  const line = [];
-
-  for (const word of words) {
-    intermediateSize += word.length + 1;
-    if (intermediateSize > lineWidth) {
-      intermediateSize = 0;
-      result.push(line.slice());
-      line.length = 0;
-    }
-    line.push(word);
-  }
-  result.push(line.slice());
-  return result;
-}
-
 function startSession() {
   document.querySelectorAll(".letter")[0].classList.add("active");
+  document.addEventListener("keydown", event => {
+    checkUserInput(event.key);
+  });
 }
 
 function checkUserInput(character) {
   const validation = new RegExp(`^[?!,-;.а-яА-ЯёЁ" "0-9]+$`);
-  const currentLetter = document.querySelector(`[data-id="${settings.currentIndex}"]`);
+  const currentLetter = document.querySelector(`[data-id="${state.currentIndex}"]`);
 
-  if (character.charCodeAt() === 66 && settings.currentIndex !== 0) {
+  if (character.charCodeAt() === 66 && state.currentIndex !== 0) {
     moveBack();
   }
   if (!validation.test(character)) {
@@ -92,42 +95,47 @@ function checkUserInput(character) {
 
   if (character.charCodeAt() === 32 && currentLetter.innerHTML === "&nbsp;") {
     moveCursor(currentLetter);
-    settings.currentIndex++;
+    state.currentIndex++;
+    return;
+  } else if (currentLetter.innerHTML === "&nbsp;" && character.charCodeAt() !== 32) {
+    currentLetter.style.borderBottom = "1px solid red";
+    moveCursor(currentLetter);
+    state.currentIndex++;
     return;
   }
 
   if (currentLetter.innerHTML === character) {
     moveCursor(currentLetter);
-    settings.currentIndex += 1;
+    state.currentIndex += 1;
   } else {
     catchError(currentLetter);
-    settings.currentIndex += 1;
+    state.currentIndex += 1;
   }
 }
+
 function moveCursor(letter) {
   letter.classList.remove("active");
   letter.classList.add("completed");
-  document
-    .querySelector(`[data-id="${settings.currentIndex + 1}"]`)
-    .classList.add("active");
+  document.querySelector(`[data-id="${state.currentIndex + 1}"]`).classList.add("active");
 }
 
 function catchError(letter) {
   letter.classList.remove("active");
   letter.classList.add("error");
-  document
-    .querySelector(`[data-id="${settings.currentIndex + 1}"]`)
-    .classList.add("active");
+  document.querySelector(`[data-id="${state.currentIndex + 1}"]`).classList.add("active");
 }
 
 function moveBack() {
-  settings.currentIndex -= 1;
-  const currentLetter = document.querySelector(`[data-id="${settings.currentIndex}"]`);
+  state.currentIndex -= 1;
+
+  const currentLetter = document.querySelector(`[data-id="${state.currentIndex}"]`);
+
   currentLetter.classList.add("active");
   currentLetter.classList.remove("error");
   currentLetter.classList.remove("completed");
+
   document
-    .querySelector(`[data-id="${settings.currentIndex + 1}"]`)
+    .querySelector(`[data-id="${state.currentIndex + 1}"]`)
     .classList.remove("active");
 }
 
