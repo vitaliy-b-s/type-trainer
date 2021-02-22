@@ -31,3 +31,17 @@ class TextRenderer {
         render splitedText
     }
 }
+
+
+class IndexSearch {
+  constructor (text) {
+    this.text = text
+  }
+
+  getCurrentIndex() {
+    return currentIndex
+  }
+}
+
+const index = new IndexSearch (splitedText.proceedText)
+
