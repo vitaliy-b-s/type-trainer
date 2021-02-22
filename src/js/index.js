@@ -21,10 +21,29 @@ function initApp() {
       });
     removeStartMenu();
   });
+
+  document.addEventListener("keydown", event => {
+    if (!checkUserInput(event.key)) {
+      return;
+    } else {
+    }
+  });
 }
 
 function removeStartMenu() {
   document.querySelector(".start-menu").style = "display: none";
+}
+
+function checkUserInput(character) {
+  const validation = new RegExp(`[\b?!,-;.а-яА-ЯёЁ" "0-9._]`);
+
+  if (character.charCodeAt() === 66) {
+    return true;
+  } else if (!validation.test(character)) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 initApp();

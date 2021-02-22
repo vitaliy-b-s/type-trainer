@@ -1,7 +1,4 @@
 export class TextRenderer {
-  constructor(text) {
-    this.text = getLettersNodeList(text);
-  }
   renderText(text) {
     const textBox = document.querySelector(".text");
 
@@ -33,6 +30,4 @@ export class TextRenderer {
       textBox.appendChild(line);
     });
   }
-
-  getLettersNodeList() {}
 }
