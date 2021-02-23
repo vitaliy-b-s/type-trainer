@@ -12,6 +12,11 @@
   "author": "Vitali Babrykovich",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.13.1",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "^7.13.0",
+    "@types/node": "^14.14.25",
+    "babel-loader": "^8.2.2",
     "css-loader": "^5.0.2",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.0.0",

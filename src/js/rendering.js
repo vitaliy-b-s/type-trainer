@@ -1,4 +1,4 @@
-export class TextRenderer {
+export class Renderer {
   renderText(text) {
     const textBox = document.querySelector(".text");
 

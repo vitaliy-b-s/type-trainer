@@ -1,12 +1,11 @@
 const axios = require("axios");
 
 export class TextProvider {
-  constructor(URL) {
-    this.URL = URL;
-  }
+  static TEXT_API =
+    "https://fish-text.ru/get?type=paragraph&format=json&number=1";
 
   provideText() {
-    return axios.get(this.URL);
+    return axios.get(this.TEXT_API);
   }
 }
 

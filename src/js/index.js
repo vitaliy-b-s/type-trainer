@@ -2,12 +2,12 @@ import "/src/assets/style.css";
 import "/src/assets/scss.scss";
 
 import { TextProcessor, TextProvider } from "./text";
-import { TextRenderer } from "./rendering";
+import { Renderer } from "./rendering";
+import { Tracker } from "./tracker";
 
-const TEXT_API = "https://fish-text.ru/get?type=paragraph&format=json&number=1";
-const textProvider = new TextProvider(TEXT_API);
+const textProvider = new TextProvider();
 const textProcessor = new TextProcessor();
-const textRenderer = new TextRenderer();
+const renderer = new Renderer();
 
 function initApp() {
   document.querySelector(".start-button").addEventListener("click", () => {
@@ -17,7 +17,7 @@ function initApp() {
         return textProcessor.splitIntoLines(50, text.data.text);
       })
       .then(splitedText => {
-        textRenderer.renderText(splitedText);
+        renderer.renderText(splitedText);
       });
     removeStartMenu();
   });
@@ -25,7 +25,10 @@ function initApp() {
   document.addEventListener("keydown", event => {
     if (!checkUserInput(event.key)) {
       return;
+    } else if (event.key.charCodeAt() === 66) {
+      return;
     } else {
+      console.log(event.key);
     }
   });
 }
