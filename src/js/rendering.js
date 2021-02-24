@@ -1,4 +1,8 @@
 export class Renderer {
+  letters;
+  words;
+  wordBorders;
+
   renderText(text) {
     const textBox = document.querySelector(".text");
 
@@ -29,5 +33,39 @@ export class Renderer {
 
       textBox.appendChild(line);
     });
+
+    this.letters = document.querySelectorAll(".letter");
+    this.words = Array.from(document.querySelectorAll(".word"));
+  }
+
+  renderCursor(currentIndex) {
+    if (currentIndex === 0) {
+      this.letters[currentIndex].classList.add("active-letter");
+      this.letters[currentIndex + 1].classList.remove("active-letter");
+    } else if (currentIndex === this.letters.length - 1) {
+      this.letters[currentIndex - 1].classList.remove("active-letter");
+      this.letters[currentIndex].classList.add("active-letter");
+    } else {
+      this.letters[currentIndex - 1].classList.remove("active-letter");
+      this.letters[currentIndex].classList.add("active-letter");
+      this.letters[currentIndex + 1].classList.remove("active-letter");
+    }
+  }
+
+  highliteCurrentWord(currentIndex) {
+    const currentWord = this.letters[currentIndex].parentNode;
+
+    if (!currentWord.nextSibling && !currentWord.previousSibling) {
+      currentWord.classList.add("active-word");
+      currentWord.previousSibling.classList.remove("active-word");
+      currentWord.nextSibling.classList.remove("active-word");
+      console.log(1);
+    } else if (currentWord.nextSibling == null && currentWord.previousSibling) {
+      currentWord.classList.add("active-word");
+    } else {
+      currentWord.classList.add("active-word");
+      currentWord.nextSibling.classList.remove("active-word");
+      console.log();
+    }
   }
 }

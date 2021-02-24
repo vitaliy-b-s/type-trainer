@@ -8,6 +8,7 @@ import { Tracker } from "./tracker";
 const textProvider = new TextProvider();
 const textProcessor = new TextProcessor();
 const renderer = new Renderer();
+const tracker = new Tracker(0);
 
 function initApp() {
   document.querySelector(".start-button").addEventListener("click", () => {
@@ -17,18 +18,26 @@ function initApp() {
         return textProcessor.splitIntoLines(50, text.data.text);
       })
       .then(splitedText => {
-        renderer.renderText(splitedText);
+        return renderer.renderText(splitedText);
+      })
+      .then(() => {
+        removeStartMenu();
+        renderer.highliteCurrentWord(tracker.currentIndex);
+        renderer.renderCursor(tracker.currentIndex);
       });
-    removeStartMenu();
   });
 
   document.addEventListener("keydown", event => {
     if (!checkUserInput(event.key)) {
       return;
     } else if (event.key.charCodeAt() === 66) {
-      return;
+      tracker.decrementIndex();
+      renderer.highliteCurrentWord(tracker.currentIndex);
+      renderer.renderCursor(tracker.currentIndex);
     } else {
-      console.log(event.key);
+      tracker.incrementIndex();
+      renderer.highliteCurrentWord(tracker.currentIndex);
+      renderer.renderCursor(tracker.currentIndex);
     }
   });
 }

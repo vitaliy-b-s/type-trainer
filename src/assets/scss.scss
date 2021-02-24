@@ -80,10 +80,14 @@ body {
     justify-content: space-between;
   }
 }
-.active {
+.active-letter {
   color: rgb(26, 94, 94);
   border: 2px solid rgb(95, 131, 155);
   border-radius: 3px;
+}
+
+.active-word {
+  background-color: aqua;
 }
 .completed {
   color: gray;

@@ -1,8 +1,7 @@
 const axios = require("axios");
 
 export class TextProvider {
-  static TEXT_API =
-    "https://fish-text.ru/get?type=paragraph&format=json&number=1";
+  TEXT_API = "https://fish-text.ru/get?type=paragraph&format=json&number=1";
 
   provideText() {
     return axios.get(this.TEXT_API);
@@ -28,5 +27,13 @@ export class TextProcessor {
     }
     result.push(line.slice());
     return result;
+  }
+
+  getIndexesData(splitedText) {
+    const indexData = [];
+    splitedText.forEach(line => {
+      const lineObject = [];
+      line.forEach(word => {});
+    });
   }
 }
