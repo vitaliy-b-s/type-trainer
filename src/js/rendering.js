@@ -67,7 +67,6 @@ export class Renderer {
     }
 
     wordForCheck.classList.add("active-word");
-    console.log(wordForCheck);
 
     if (this.currentWord === wordForCheck) {
       return;
