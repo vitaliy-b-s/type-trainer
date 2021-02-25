@@ -23,17 +23,9 @@ export class TextProcessor {
         line.length = 0;
       }
       line.push(word);
-      line.push(" ");
+      line.push("&nbsp;");
     }
     result.push(line.slice());
     return result;
-  }
-
-  getIndexesData(splitedText) {
-    const indexData = [];
-    splitedText.forEach(line => {
-      const lineObject = [];
-      line.forEach(word => {});
-    });
   }
 }

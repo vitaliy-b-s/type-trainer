@@ -1,7 +1,7 @@
 export class Renderer {
   letters;
   words;
-  wordBorders;
+  currentWord;
 
   renderText(text) {
     const textBox = document.querySelector(".text");
@@ -13,9 +13,15 @@ export class Renderer {
 
       elem.forEach(elem => {
         const word = document.createElement("div");
+
+        if (elem === "&nbsp;") {
+          word.innerHTML = "&nbsp;";
+          word.classList.add("letter");
+          line.appendChild(word);
+          return;
+        }
+
         const letters = elem.split("");
-        const space = document.createElement("div");
-        space.innerHTML = "&nbsp;";
 
         word.classList.add("word");
 
@@ -27,7 +33,6 @@ export class Renderer {
           word.appendChild(letter);
         });
 
-        word.appendChild(space);
         line.appendChild(word);
       });
 
@@ -35,7 +40,8 @@ export class Renderer {
     });
 
     this.letters = document.querySelectorAll(".letter");
-    this.words = Array.from(document.querySelectorAll(".word"));
+    this.words = document.querySelectorAll(".word");
+    this.currentWord = this.words[0];
   }
 
   renderCursor(currentIndex) {
@@ -53,19 +59,21 @@ export class Renderer {
   }
 
   highliteCurrentWord(currentIndex) {
-    const currentWord = this.letters[currentIndex].parentNode;
-
-    if (!currentWord.nextSibling && !currentWord.previousSibling) {
-      currentWord.classList.add("active-word");
-      currentWord.previousSibling.classList.remove("active-word");
-      currentWord.nextSibling.classList.remove("active-word");
-      console.log(1);
-    } else if (currentWord.nextSibling == null && currentWord.previousSibling) {
-      currentWord.classList.add("active-word");
+    let wordForCheck;
+    if (this.letters[currentIndex].parentNode.classList.contains("line")) {
+      wordForCheck = this.letters[currentIndex];
     } else {
-      currentWord.classList.add("active-word");
-      currentWord.nextSibling.classList.remove("active-word");
-      console.log();
+      wordForCheck = this.letters[currentIndex].parentNode;
+    }
+
+    wordForCheck.classList.add("active-word");
+    console.log(wordForCheck);
+
+    if (this.currentWord === wordForCheck) {
+      return;
+    } else {
+      this.currentWord.classList.remove("active-word");
+      this.currentWord = wordForCheck;
     }
   }
 }

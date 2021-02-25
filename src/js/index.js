@@ -30,6 +30,8 @@ function initApp() {
   document.addEventListener("keydown", event => {
     if (!checkUserInput(event.key)) {
       return;
+    } else if (event.key.charCodeAt() === 66 && tracker.currentIndex === 0) {
+      return;
     } else if (event.key.charCodeAt() === 66) {
       tracker.decrementIndex();
       renderer.highliteCurrentWord(tracker.currentIndex);
