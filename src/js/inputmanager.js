@@ -13,7 +13,7 @@ export class InputManager {
   onInput(key) {
     if (
       (key.charCodeAt() === 66 && this.decrementIndex === 0) ||
-      !validation.test(key)
+      !this.validation.test(key)
     ) {
       return false;
     } else {
@@ -21,5 +21,9 @@ export class InputManager {
     }
   }
 
-  checkForEror(key) {}
+  checkForError(key, letters, currentIndex) {
+    if (key !== letters[currentIndex].innerHTML) {
+      return true;
+    }
+  }
 }

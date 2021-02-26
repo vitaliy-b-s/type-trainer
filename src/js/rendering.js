@@ -75,4 +75,8 @@ export class Renderer {
       this.currentWord = wordForCheck;
     }
   }
+
+  rendererError(currentIndex) {
+    this.letters[currentIndex].classList.add("error");
+  }
 }
