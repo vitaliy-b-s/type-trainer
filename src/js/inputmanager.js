@@ -11,10 +11,11 @@ export class InputManager {
   }
 
   onInput(key) {
-    if (
-      (key.charCodeAt() === 66 && this.decrementIndex === 0) ||
-      !this.validation.test(key)
-    ) {
+    if (key.charCodeAt() === 66 && this.currentIndex === 0) {
+      return false;
+    } else if (key.charCodeAt() === 66) {
+      return true;
+    } else if (!this.validation.test(key)) {
       return false;
     } else {
       return true;

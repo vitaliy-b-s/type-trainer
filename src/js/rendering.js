@@ -79,4 +79,9 @@ export class Renderer {
   rendererError(currentIndex) {
     this.letters[currentIndex].classList.add("error");
   }
+
+  stepBack(currentIndex) {
+    this.letters[currentIndex].classList.remove("error");
+    this.letters[currentIndex + 1].classList.remove("error");
+  }
 }

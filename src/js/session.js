@@ -17,18 +17,18 @@ export class Session {
         this.stats.countErrors();
         this.renderer.rendererError(this.inputManager.currentIndex);
       }
-      //   this.stats.countAccuracy();
-      this.inputManager.incrementIndex();
-      this.renderer.renderCursor(this.inputManager.currentIndex);
-      this.renderer.highliteCurrentWord(this.inputManager.currentIndex);
-
-      //   this.renderer.renderStats();
+      if (key.charCodeAt() === 66) {
+        this.inputManager.decrementIndex();
+        this.renderer.renderCursor(this.inputManager.currentIndex);
+        this.renderer.highliteCurrentWord(this.inputManager.currentIndex);
+        this.renderer.stepBack(this.inputManager.currentIndex);
+      } else {
+        this.inputManager.incrementIndex();
+        this.renderer.renderCursor(this.inputManager.currentIndex);
+        this.renderer.highliteCurrentWord(this.inputManager.currentIndex);
+      }
     } else {
       return;
     }
   }
-
-  countSpeed() {}
-
-  setTimer() {}
 }
